@@ -1,24 +1,33 @@
 @import url(//db.onlinewebfonts.com/c/548e77e130ea884c764acabe1ba1ad63?family=0Arame);
 
-.about_container{
+.about_container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
-.media_container{
+.row_container {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
 }
-.col_border{
+.col_border {
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
 }
-.text{
+.text {
     white-space: nowrap;
     color: white;
     font-size: 38px;
     font-family: "0Arame";
+    display: inline-block;
 }
+.line {
+    opacity: 0;
+    left: 0;
+    height: 100%;
+    width: 3px;
+    background-color: #fff;
+    transform-origin: 0 50%;
+  }
