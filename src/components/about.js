@@ -10,6 +10,10 @@ import _ from 'lodash';
 export default class About extends React.Component {
 
   componentDidMount(){
+    const ua = window.navigator.userAgent;
+    const isIE = /MSIE|Trident/.test(ua);
+    if(isIE){ alert("This website is driven by SVG animations that are NOT supported on IE. Please use any other browser for full potential!"); }
+
     const wrap_letters = (textWrapper) => {
       textWrapper.innerHTML = textWrapper.textContent.replace(/./g, "<span className='text'>$&</span>");
     };
@@ -36,11 +40,11 @@ export default class About extends React.Component {
         scaleY: [0,1],
         opacity: [0.5,1],
         easing: "easeOutExpo",
-        duration: 700,
+        duration: 900,
       })
       .add({
         targets: document.getElementById("line1"),
-        translateX: [0, textWrapper1.getBoundingClientRect().width + 5],
+        translateX: [0, textWrapper1.getBoundingClientRect().width - 15],
         easing: "easeOutExpo",
         duration: 1000,
       })
@@ -56,18 +60,18 @@ export default class About extends React.Component {
         scaleY: [1,0],
         opacity: [1,0],
         easing: "easeOutExpo",
-        duration: 700,
+        duration: 900,
       })
       .add({
         targets: document.getElementById("line2"),
         scaleY: [0,1],
         opacity: [0.5,1],
         easing: "easeOutExpo",
-        duration: 700,
+        duration: 900,
       })
       .add({
         targets: document.getElementById("line2"),
-        translateX: [0, textWrapper2.getBoundingClientRect().width + 5],
+        translateX: [0, textWrapper2.getBoundingClientRect().width - 35],
         easing: "easeOutExpo",
         duration: 2100,
       })
@@ -83,7 +87,7 @@ export default class About extends React.Component {
         scaleY: [1,0],
         opacity: [1,0],
         easing: "easeOutExpo",
-        duration: 700,
+        duration: 900,
       })
       .add({
         targets: myname_element,
@@ -98,6 +102,25 @@ export default class About extends React.Component {
         duration: 1000,
         easing: 'linear',
         delay: 1000,
+        complete: () => {
+          anime.timeline({
+            targets: myname_element,
+            delay: 1000,
+            easing: 'cubicBezier(0.445, 0.050, 0.550, 0.950)',
+            loop: true,
+            autoplay: true,
+          })
+            .add({
+              fill: "#000",
+              //opacity: 0,
+              duration: 2000,
+            })
+            .add({
+              fill: "#FFF",
+              //opacity: 1,
+              duration: 3000,
+            });
+        },
       });
   }
 
@@ -131,17 +154,19 @@ export default class About extends React.Component {
     );
 
     return (
-      <div className='about_container'>
-        {myname_svg}
-        <div className="row_container">
+      <div className="h-100 d-flex flex-column justify-content-center align-items-center">
+        <div className="p-4">
+          {myname_svg}
+        </div>
+        <div className="d-flex flex-row">
           <span id="line1" className="line"></span>
           <span id="about_desc_text1" className="text"> SOFTWARE ENGINEER </span>
         </div>
-        <div className="row_container">
+        <div className="d-flex flex-row">
           <span id="line2" className="line"></span>
           <span id="about_desc_text2" className="text"> BORN IN SEOUL, LIVING IN OTTAWA </span>
         </div>
-        <div id="media_row" className="row_container">
+        <div id="media_row" className="d-flex flex-row">
           <a className="col_border" href="mailto:kang.taewan.96@gmail.com" target="_blank" rel="noopener noreferrer">
             <img src={email} alt="email" height="25" width="25"/>
           </a>
