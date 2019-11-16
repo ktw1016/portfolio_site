@@ -2,131 +2,161 @@ import './about.scss';
 import github from '../svg/github-logo.svg';
 import linkedin from '../svg/linkedin.svg';
 import email from '../svg/email.svg';
+import retro_audio from "../audio/retro.mp3";
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import anime from "animejs";
 import _ from 'lodash';
 
 export default class About extends React.Component {
 
   componentDidMount(){
-    const ua = window.navigator.userAgent;
-    const isIE = /MSIE|Trident/.test(ua);
-    if(isIE){ alert("This website is driven by SVG animations that are NOT supported on IE. Please use any other browser for full potential!"); }
-
-    const wrap_letters = (textWrapper) => {
-      textWrapper.innerHTML = textWrapper.textContent.replace(/./g, "<span className='text'>$&</span>");
-    };
-    const textWrapper1 = document.getElementById('about_desc_text1');
-    const textWrapper2 = document.getElementById('about_desc_text2');
-    wrap_letters(textWrapper1);
-    wrap_letters(textWrapper2);
-
     const myname_element = document.querySelectorAll("#myname path");
-    _.forEach(myname_element, (val, idx) => {
-      val.style.cssText = `stroke-dasharray: ${val.getTotalLength()}; stroke-dashoffset: ${val.getTotalLength()}`;
-    });
-    
-    const timeline = anime.timeline();
-    timeline
-      .add({
-        targets: document.getElementById('media_row'),
-        opacity: [0,1],
-        duration: 4000,
-        easing: 'easeInSine',
-      })
-      .add({
-        targets: document.getElementById("line1"),
-        scaleY: [0,1],
-        opacity: [0.5,1],
-        easing: "easeOutExpo",
-        duration: 900,
-      })
-      .add({
-        targets: document.getElementById("line1"),
-        translateX: [0, textWrapper1.getBoundingClientRect().width - 15],
-        easing: "easeOutExpo",
-        duration: 1000,
-      })
-      .add({
-        targets: textWrapper1.children,
-        opacity: [0,1],
-        duration: 800,
-        easing: 'easeOutExpo',
-        delay: (el, i) => 34 * (i+1),
-      }, '-=975')
-      .add({
-        targets: document.getElementById("line1"),
-        scaleY: [1,0],
-        opacity: [1,0],
-        easing: "easeOutExpo",
-        duration: 900,
-      })
-      .add({
-        targets: document.getElementById("line2"),
-        scaleY: [0,1],
-        opacity: [0.5,1],
-        easing: "easeOutExpo",
-        duration: 900,
-      })
-      .add({
-        targets: document.getElementById("line2"),
-        translateX: [0, textWrapper2.getBoundingClientRect().width - 35],
-        easing: "easeOutExpo",
-        duration: 2100,
-      })
-      .add({
-        targets: textWrapper2.children,
-        opacity: [0,1],
-        duration: 1800,
-        easing: 'easeOutExpo',
-        delay: (el, i) => 34 * (i+1),
-      }, '-=2075')
-      .add({
-        targets: document.getElementById("line2"),
-        scaleY: [1,0],
-        opacity: [1,0],
-        easing: "easeOutExpo",
-        duration: 900,
-      })
-      .add({
-        targets: myname_element,
-        strokeDashoffset: [anime.setDashoffset, 0],
-        easing: 'easeInOutSine',
-        duration: 2500,
-        delay: function(el, i) { return i * 250; },
-      }, '-=2600')
-      .add({
-        targets: myname_element,
-        fill: "#FFF",
-        duration: 1000,
-        easing: 'linear',
-        delay: 1000,
-        complete: () => {
-          anime.timeline({
-            targets: myname_element,
-            delay: 1000,
-            easing: 'cubicBezier(0.445, 0.050, 0.550, 0.950)',
-            loop: true,
-            autoplay: true,
-          })
-            .add({
-              fill: "#000",
-              //opacity: 0,
-              duration: 2000,
-            })
-            .add({
-              fill: "#FFF",
-              //opacity: 1,
-              duration: 3000,
-            });
-        },
+    const audio_player = document.getElementById("about_audio");
+    audio_player.play();
+
+    const isIE = /(MSIE|Trident\/|Edge\/)/i.test(navigator.userAgent);
+    if(isIE){
+      alert("This website is driven by SVG animations that are NOT supported on IE or Edge. Please use any other browser for full potential!");
+    } else{
+      _.forEach(myname_element, (val, idx) => {
+        val.style.cssText = `stroke-dasharray: ${val.getTotalLength()}; stroke-dashoffset: ${val.getTotalLength()}`;
       });
+      const wrap_letters = (textWrapper) => {
+        textWrapper.innerHTML = textWrapper.textContent.replace(/./g, "<span className='text'>$&</span>");
+      };
+      const textWrapper1 = document.getElementById('about_desc_text1');
+      const textWrapper2 = document.getElementById('about_desc_text2');
+      const textWrapper3 = document.getElementById('name_desc_text1');
+      const textWrapper4 = document.getElementById('name_desc_text2');
+      wrap_letters(textWrapper1);
+      wrap_letters(textWrapper2);
+      wrap_letters(textWrapper3);
+      wrap_letters(textWrapper4);
+      
+      const timeline = anime.timeline();
+      timeline
+        .add({
+          targets: document.getElementById("line1"),
+          scaleY: [0,1],
+          opacity: [0.5,1],
+          easing: "easeOutExpo",
+          duration: 900,
+        })
+        .add({
+          targets: document.getElementById("line1"),
+          translateX: [0, textWrapper1.getBoundingClientRect().width - 5],
+          easing: "easeOutExpo",
+          duration: 1000,
+        })
+        .add({
+          targets: textWrapper1.children,
+          opacity: [0,1],
+          duration: 800,
+          easing: 'easeOutExpo',
+          delay: (el, i) => 34 * (i+1),
+        }, '-=975')
+        .add({
+          targets: document.getElementById("line1"),
+          scaleY: [1,0],
+          opacity: [1,0],
+          easing: "easeOutExpo",
+          duration: 900,
+        })
+        .add({
+          targets: document.getElementById("line2"),
+          scaleY: [0,1],
+          opacity: [0.5,1],
+          easing: "easeOutExpo",
+          duration: 900,
+        })
+        .add({
+          targets: document.getElementById("line2"),
+          translateX: [0, textWrapper2.getBoundingClientRect().width - 15],
+          easing: "easeOutExpo",
+          duration: 2100,
+        })
+        .add({
+          targets: textWrapper2.children,
+          opacity: [0,1],
+          duration: 1800,
+          easing: 'easeOutExpo',
+          delay: (el, i) => 34 * (i+1),
+        }, '-=2075')
+        .add({
+          targets: document.getElementById("line2"),
+          scaleY: [1,0],
+          opacity: [1,0],
+          easing: "easeOutExpo",
+          duration: 900,
+        })
+        .add({
+          targets: textWrapper3.children,
+          opacity: [0,1],
+          duration: 1800,
+          easing: 'easeOutExpo',
+          delay: (el, i) => 34 * (i+1),
+        })
+        .add({
+          targets: textWrapper4.children,
+          opacity: [0,1],
+          duration: 1800,
+          easing: 'easeOutExpo',
+          delay: (el, i) => 34 * (i+1),
+        })
+        .add({
+          targets: myname_element,
+          strokeDashoffset: [anime.setDashoffset, 0],
+          easing: 'easeInOutSine',
+          duration: 3000,
+          delay: function(el, i) { return i * 250; },
+        }, '-=600')
+        .add({
+          targets: document.getElementById("available_text"),
+          scale: [14,1],
+          opacity: [0,1],
+          easing: "easeOutCirc",
+          duration: 800,
+          delay: (el, i) => 800 * i,
+        }, '+=1600')
+        .add({
+          targets: document.getElementById('media_row'),
+          opacity: [0,1],
+          duration: 3000,
+          easing: 'easeInSine',
+        })
+        .add({
+          targets: myname_element,
+          fill: "#FFF",
+          duration: 1000,
+          easing: 'linear',
+          delay: 500,
+          complete: () => {
+            anime.timeline({
+              targets: myname_element,
+              delay: 1000,
+              easing: 'cubicBezier(0.445, 0.050, 0.550, 0.950)',
+              loop: true,
+              autoplay: true,
+            })
+              .add({
+                fill: "#000",
+                //opacity: 0,
+                duration: 2000,
+              })
+              .add({
+                fill: "#FFF",
+                //opacity: 1,
+                duration: 3000,
+              });
+          },
+        });
+    }
   }
 
   render() {
     const myname_svg = (
-      <svg id="myname" width="1015" height="100" viewBox="0 0 615 78" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg id="myname" width="715" height="100" viewBox="0 0 615 78" fill="none" xmlns="http://www.w3.org/2000/svg">
         <mask id="path-1-outside-1" maskUnits="userSpaceOnUse" x="0.503128" y="0.799988" width="615" height="78" fill="black">
           <rect fill="white" x="0.503128" y="0.799988" width="615" height="78"/>
           <path d="M5.50313 15.4V5.79999H53.5031V15.4H34.3031V73H24.7031V15.4H5.50313Z"/>
@@ -154,30 +184,40 @@ export default class About extends React.Component {
     );
 
     return (
-      <div className="h-100 d-flex flex-column justify-content-center align-items-center">
-        <div className="p-4">
-          {myname_svg}
+      <Fragment>
+        <div className="d-flex flex-column justify-content-start">
+          <span id="name_desc_text1" className="text-sm"> HEY THERE, </span>
+          <span id="name_desc_text2" className="text-sm"> MY NAME IS: </span>
         </div>
-        <div className="d-flex flex-row">
-          <span id="line1" className="line"></span>
-          <span id="about_desc_text1" className="text"> SOFTWARE ENGINEER </span>
+        <div className="h-100 d-flex flex-column justify-content-center align-items-center">
+          <div style={{paddingBottom: 30}}>
+            {myname_svg}
+          </div>
+          <div className="d-flex flex-row">
+            <span id="line1" className="line"></span>
+            <span id="about_desc_text1" className="text"> SOFTWARE ENGINEER </span>
+          </div>
+          <div className="d-flex flex-row">
+            <span id="line2" className="line"></span>
+            <span id="about_desc_text2" className="text"> BORN IN SEOUL, LIVING IN OTTAWA </span>
+          </div>
+          <span id="available_text" className="text"> AVAILABLE NOW </span>
+          <div id="media_row" className="d-flex flex-row p-2">
+            <a className="col-border" href="mailto:kang.taewan.96@gmail.com" target="_blank" rel="noopener noreferrer">
+              <img src={email} alt="email" className="media-size"/>
+            </a>
+            <a className="col-border" href="https://github.com/ktw1016" target="_blank" rel="noopener noreferrer">
+              <img src={github} alt="github" className="media-size"/>
+            </a>
+            <a className="col-border" href="https://www.linkedin.com/in/taewan-kang-605060195/" target="_blank" rel="noopener noreferrer">
+              <img src={linkedin} alt="linkedin" className="media-size"/>
+            </a>
+          </div>
         </div>
-        <div className="d-flex flex-row">
-          <span id="line2" className="line"></span>
-          <span id="about_desc_text2" className="text"> BORN IN SEOUL, LIVING IN OTTAWA </span>
-        </div>
-        <div id="media_row" className="d-flex flex-row">
-          <a className="col_border" href="mailto:kang.taewan.96@gmail.com" target="_blank" rel="noopener noreferrer">
-            <img src={email} alt="email" height="25" width="25"/>
-          </a>
-          <a className="col_border" href="https://github.com/ktw1016" target="_blank" rel="noopener noreferrer">
-            <img src={github} alt="github" height="25" width="25"/>
-          </a>
-          <a className="col_border" href="https://www.linkedin.com/in/taewan-kang-605060195/" target="_blank" rel="noopener noreferrer">
-            <img src={linkedin} alt="linkedin" height="25" width="25"/>
-          </a>
-        </div>
-      </div>
+        <audio autoPlay id="about_audio">
+          <source src={retro_audio} type="audio/mpeg"/>
+        </audio>
+      </Fragment>
     );
   }
 }

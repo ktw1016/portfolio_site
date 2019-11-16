@@ -6,7 +6,7 @@ export default class Application extends React.Component {
   render() {
     return (
       <div className="h-100 d-flex flex-column justify-content-center align-items-center mobile-scale">
-        <div>
+        <div style={{display: "inline-block"}}>
           <About />
         </div>
       </div>

@@ -1,11 +1,20 @@
-.col_border {
+.col-border {
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
 }
 .text {
     white-space: nowrap;
     font-size: 38px;
-    display: inline-block;
+    line-height: 1;
+}
+.text-sm {
+    white-space: nowrap;
+    font-size: 15px;
+    line-height: 1;
+}
+.media-size {
+    height: 27px;
+    width: 27px;
 }
 .line {
     opacity: 0;
