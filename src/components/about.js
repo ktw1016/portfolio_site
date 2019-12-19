@@ -2,6 +2,7 @@ import './about.scss';
 import github from '../svg/github-logo.svg';
 import linkedin from '../svg/linkedin.svg';
 import email from '../svg/email.svg';
+import resume from '../svg/resume.svg';
 import retro_audio from "../audio/retro.mp3";
 
 import React, { Fragment } from 'react';
@@ -13,6 +14,9 @@ export default class About extends React.Component {
   componentDidMount(){
     const myname_element = document.querySelectorAll("#myname path");
     const audio_player = document.getElementById("about_audio");
+    const name_length = _.reduce(myname_element, (name_length_sum, letter_el) => {
+      return name_length_sum + letter_el.getBoundingClientRect().width;
+    }, 0);
 
     const isIE = /(MSIE|Trident\/|Edge\/)/i.test(navigator.userAgent);
     if(isIE){
@@ -147,6 +151,9 @@ export default class About extends React.Component {
         });
       play_btn.addEventListener("click", () => {
         if(initial_play){
+          initial_play = false;
+          is_playing = true;
+
           audio_player.play();
           anime.timeline()
             .add({
@@ -174,7 +181,7 @@ export default class About extends React.Component {
             }, "-=500")
             .add({
               targets: play_btn,
-              translateX: -300,
+              translateX: -(name_length/3.3),
               easing: "easeInOutBack",
               duration: 2000,
             }, "-=1000")
@@ -185,9 +192,9 @@ export default class About extends React.Component {
               duration: 700,
               complete: () => timeline.play(),
             }, "-=500");
-          initial_play = false;
-          is_playing = false;
         } else if(!is_playing){
+          is_playing = true;
+
           audio_player.play();
           anime.timeline()
             .add({
@@ -207,8 +214,9 @@ export default class About extends React.Component {
               duration: 550,
             }, "-=550");
 
-          is_playing = true;
         } else if(is_playing){
+          is_playing = false;
+
           audio_player.pause();
           anime.timeline()
             .add({
@@ -227,7 +235,6 @@ export default class About extends React.Component {
               easing: "linear",
               duration: 550,
             }, "-=550");
-          is_playing = false;
         }
       });  
     }
@@ -263,7 +270,7 @@ export default class About extends React.Component {
     );
 
     const play_svg = (
-      <svg id="play_btn" width="222" height="222" viewBox="0 0 222 222" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg id="play_btn" style={{cursor: "pointer"}} width="222" height="222" viewBox="0 0 222 222" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="111" cy="111" r="111" fill="white"/>
         <path d="M193 111L69.25 181.148L69.25 40.8519L193 111Z" fill="black"/>
         <path d="M193 111L69.25 181.148L69.25 40.8519L193 111Z" fill="black"/>
@@ -289,6 +296,9 @@ export default class About extends React.Component {
           </div>
           <span id="available_text" className="text"> AVAILABLE NOW </span>
           <div id="media_row" className="d-flex flex-row p-2">
+            <a className="col-border" href="mailto:kang.taewan.96@gmail.com" target="_blank" rel="noopener noreferrer">
+              <img src={resume} alt="resume" className="media-size"/>
+            </a>
             <a className="col-border" href="mailto:kang.taewan.96@gmail.com" target="_blank" rel="noopener noreferrer">
               <img src={email} alt="email" className="media-size"/>
             </a>
