@@ -2,7 +2,8 @@ import './about.scss';
 import github from '../svg/github-logo.svg';
 import linkedin from '../svg/linkedin.svg';
 import email from '../svg/email.svg';
-import resume from '../svg/resume.svg';
+import resume_svg from '../svg/resume.svg';
+import resume_pdf from '../pdf/Resume.pdf';
 import retro_audio from "../audio/retro.mp3";
 
 import React, { Fragment } from 'react';
@@ -296,8 +297,8 @@ export default class About extends React.Component {
           </div>
           <span id="available_text" className="text"> AVAILABLE NOW </span>
           <div id="media_row" className="d-flex flex-row p-2">
-            <a className="col-border" href="mailto:kang.taewan.96@gmail.com" target="_blank" rel="noopener noreferrer">
-              <img src={resume} alt="resume" className="media-size"/>
+            <a className="col-border" href={resume_pdf} target="_blank" download="taewan_kang_resume">
+              <img src={resume_svg} alt="resume" className="media-size"/>
             </a>
             <a className="col-border" href="mailto:kang.taewan.96@gmail.com" target="_blank" rel="noopener noreferrer">
               <img src={email} alt="email" className="media-size"/>
