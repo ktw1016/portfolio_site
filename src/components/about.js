@@ -13,12 +13,24 @@ export default class About extends React.Component {
   componentDidMount(){
     const myname_element = document.querySelectorAll("#myname path");
     const audio_player = document.getElementById("about_audio");
-    audio_player.play();
 
     const isIE = /(MSIE|Trident\/|Edge\/)/i.test(navigator.userAgent);
     if(isIE){
       alert("This website is driven by SVG animations that are NOT supported on IE or Edge. Please use any other browser for full potential!");
     } else{
+      let initial_play = true;
+      let is_playing = false;
+      const play_path_value = [
+        'M193 111L69.25 181.148L69.25 40.8519L193 111Z',
+        'M193 111L69.25 181.148L69.25 40.8519L193 111Z',
+      ];
+      const pause_path_value = [
+        "M153 185H131L131 37L153 37L153 185Z",
+        "M91 37L91 185H69L69 37L91 37Z",
+      ];
+      const play_path = document.querySelectorAll("#play_btn path");
+      const play_btn = document.getElementById('play_btn');
+      
       _.forEach(myname_element, (val, idx) => {
         val.style.cssText = `stroke-dasharray: ${val.getTotalLength()}; stroke-dashoffset: ${val.getTotalLength()}`;
       });
@@ -27,14 +39,10 @@ export default class About extends React.Component {
       };
       const textWrapper1 = document.getElementById('about_desc_text1');
       const textWrapper2 = document.getElementById('about_desc_text2');
-      const textWrapper3 = document.getElementById('name_desc_text1');
-      const textWrapper4 = document.getElementById('name_desc_text2');
       wrap_letters(textWrapper1);
       wrap_letters(textWrapper2);
-      wrap_letters(textWrapper3);
-      wrap_letters(textWrapper4);
       
-      const timeline = anime.timeline();
+      const timeline = anime.timeline({ autoplay: false });
       timeline
         .add({
           targets: document.getElementById("line1"),
@@ -91,26 +99,12 @@ export default class About extends React.Component {
           duration: 900,
         })
         .add({
-          targets: textWrapper3.children,
-          opacity: [0,1],
-          duration: 1800,
-          easing: 'easeOutExpo',
-          delay: (el, i) => 34 * (i+1),
-        })
-        .add({
-          targets: textWrapper4.children,
-          opacity: [0,1],
-          duration: 1800,
-          easing: 'easeOutExpo',
-          delay: (el, i) => 34 * (i+1),
-        })
-        .add({
           targets: myname_element,
           strokeDashoffset: [anime.setDashoffset, 0],
           easing: 'easeInOutSine',
           duration: 3000,
           delay: function(el, i) { return i * 250; },
-        }, '-=600')
+        }, '-=2500')
         .add({
           targets: document.getElementById("available_text"),
           scale: [14,1],
@@ -118,11 +112,11 @@ export default class About extends React.Component {
           easing: "easeOutCirc",
           duration: 800,
           delay: (el, i) => 800 * i,
-        }, '+=1600')
+        }, '+=600')
         .add({
           targets: document.getElementById('media_row'),
           opacity: [0,1],
-          duration: 3000,
+          duration: 2500,
           easing: 'easeInSine',
         })
         .add({
@@ -151,6 +145,91 @@ export default class About extends React.Component {
               });
           },
         });
+      play_btn.addEventListener("click", () => {
+        if(initial_play){
+          audio_player.play();
+          anime.timeline()
+            .add({
+              targets: play_path[0],
+              d: [
+                { value: pause_path_value[0] },
+              ],
+              easing: "linear",
+              duration: 550,
+            })
+            .add({
+              targets: play_path[1],
+              d: [
+                { value: pause_path_value[1] },
+              ],
+              easing: "linear",
+              duration: 550,
+            }, "-=550")
+            .add({
+              targets: play_btn,
+              width: [100, 27],
+              height: [100, 27],
+              easing: "easeOutBounce",
+              duration: 2500,
+            }, "-=500")
+            .add({
+              targets: play_btn,
+              translateX: -300,
+              easing: "easeInOutBack",
+              duration: 2000,
+            }, "-=1000")
+            .add({
+              targets: play_btn,
+              opacity: [1,0.3],
+              easing: "linear",
+              duration: 700,
+              complete: () => timeline.play(),
+            }, "-=500");
+          initial_play = false;
+          is_playing = false;
+        } else if(!is_playing){
+          audio_player.play();
+          anime.timeline()
+            .add({
+              targets: play_path[0],
+              d: [
+                { value: pause_path_value[0] },
+              ],
+              easing: "linear",
+              duration: 550,
+            })
+            .add({
+              targets: play_path[1],
+              d: [
+                { value: pause_path_value[1] },
+              ],
+              easing: "linear",
+              duration: 550,
+            }, "-=550");
+
+          is_playing = true;
+        } else if(is_playing){
+          audio_player.pause();
+          anime.timeline()
+            .add({
+              targets: play_path[0],
+              d: [
+                { value: play_path_value[0] },
+              ],
+              easing: "linear",
+              duration: 550,
+            })
+            .add({
+              targets: play_path[1],
+              d: [
+                { value: play_path_value[1] },
+              ],
+              easing: "linear",
+              duration: 550,
+            }, "-=550");
+          is_playing = false;
+        }
+      });  
     }
   }
 
@@ -183,11 +262,18 @@ export default class About extends React.Component {
       </svg>
     );
 
+    const play_svg = (
+      <svg id="play_btn" width="222" height="222" viewBox="0 0 222 222" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="111" cy="111" r="111" fill="white"/>
+        <path d="M193 111L69.25 181.148L69.25 40.8519L193 111Z" fill="black"/>
+        <path d="M193 111L69.25 181.148L69.25 40.8519L193 111Z" fill="black"/>
+      </svg>
+    );
+
     return (
       <Fragment>
-        <div className="d-flex flex-column justify-content-start">
-          <span id="name_desc_text1" className="text-sm"> HEY THERE, </span>
-          <span id="name_desc_text2" className="text-sm"> MY NAME IS: </span>
+        <div className="d-flex flex-column justify-content-start align-items-center">
+          {play_svg}
         </div>
         <div className="h-100 d-flex flex-column justify-content-center align-items-center">
           <div style={{paddingBottom: 30}}>
@@ -214,7 +300,7 @@ export default class About extends React.Component {
             </a>
           </div>
         </div>
-        <audio autoPlay id="about_audio">
+        <audio id="about_audio">
           <source src={retro_audio} type="audio/mpeg"/>
         </audio>
       </Fragment>
